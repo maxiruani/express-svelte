@@ -3,11 +3,11 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
-    ${head}        <!-- <svelte:head> stuff -->
+    ${head}        <!-- <svelte:head> -->
     ${styles}      <!-- Inline CSS -->
+    ${scripts}     <!-- View defer script. Executed just before DOMContentLoad -->
     ${globalProps} <!-- devalue of serialized global props -->
     ${globalStore} <!-- devalue of serialized global store -->
-    ${scripts}     <!-- defer scripts. Executed just before DOMContentLoad -->
 </head>
 <body>
     ${html}
