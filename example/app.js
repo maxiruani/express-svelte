@@ -9,10 +9,26 @@ app.set('json spaces', 2);
 
 app.use(expressSvelte({
     viewsDirname: __dirname + '/views',
-    bundlesDirname: __dirname + '/public',
+    bundlesDirname: __dirname + '/public/dist',
     bundlesPattern: '[name][extname]',
     env: 'development'
 }));
+
+app.get('/', function (req, res, next) {
+
+    res.svelte('Page', {
+        globalStore: {
+            count: 0,
+            value: 'Store prop'
+        },
+        globalProps: {
+            value: 'Global prop'
+        },
+        props: {
+            value: 'View prop'
+        }
+    });
+});
 
 app.use(function (req, res, next) {
 
@@ -39,8 +55,4 @@ app.use(function (err, req, res, next) {
 
 app.listen(4500);
 
-
-// TODO: Rollup script to wrap page component and set globals (like app render)
-// TODO:
-// TODO:
-// TODO:
+console.log('app.js Listening at port:4500');

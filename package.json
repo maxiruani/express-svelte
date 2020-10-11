@@ -4,7 +4,8 @@
   "description": "A Svelte view engine for Express.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build:example": "NODE_ENV=development rollup -c example/rollup.config.js"
   },
   "repository": {
     "type": "git",
@@ -39,7 +40,6 @@
     "@rollup/plugin-babel": "^5.2.1",
     "core-js": "^3.6.5",
     "express": "^4.17.1",
-    "rollup-plugin-multi-input": "^1.1.1",
     "rollup-plugin-terser": "^7.0.2",
     "svelte": "^3.24.1"
   }

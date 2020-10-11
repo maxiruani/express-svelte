@@ -1,0 +1,12 @@
+{
+  "version": 3,
+  "file": "Page.css",
+  "sources": [
+    "Page.svelte"
+  ],
+  "sourcesContent": [
+    "\n<script>\n    import { getContext } from 'svelte';\n\n    const globalStore = getContext('global.store');\n    const globalProps = getContext('global.props');\n\n    function increment() {\n        globalStore.update(store => {\n            store.count = store.count != null ? store.count : 0;\n            store.count++;\n            return store;\n        });\n    }\n\n    function decrement() {\n        globalStore.update(store => {\n            store.count = store.count != null ? store.count : 0;\n            store.count--;\n            return store;\n        });\n    }\n\n    function reset() {\n        globalStore.update(store => {\n            store.count = 0\n            return store;\n        });\n    }\n</script>\n\n<style>\n    .Page {\n        display: block;\n        max-width: 600px;\n        margin: 100px auto;\n        padding: 0;\n    }\n</style>\n\n<div class=\"Page\">\n\n    <h1>Svelte Page</h1>\n\n    <h5>Store props</h5>\n    <pre>{JSON.stringify($globalStore, null, 2)}</pre>\n\n    <h5>Global props</h5>\n    <pre>{JSON.stringify(globalProps, null, 2)}</pre>\n\n    <h5>View props</h5>\n    <pre>{JSON.stringify($$props, null, 2)}</pre>\n\n    <button type=\"button\" on:click={increment}>\n        Increase store count +\n    </button>\n    <button type=\"button\" on:click={decrement}>\n        Decrease store count -\n    </button>\n    <button type=\"button\" on:click={reset}>\n        Reset store count\n    </button>\n\n</div>"
+  ],
+  "names": [],
+  "mappings": "AAgCI,KAAK,eAAC,CAAC,AACH,OAAO,CAAE,KAAK,CACd,SAAS,CAAE,KAAK,CAChB,MAAM,CAAE,KAAK,CAAC,IAAI,CAClB,OAAO,CAAE,CAAC,AACd,CAAC"
+}
