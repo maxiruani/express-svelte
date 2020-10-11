@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/maxiruani/express-svelte#readme",
   "dependencies": {
+    "@nuxt/devalue": "^1.2.4",
     "@rollup/plugin-commonjs": "^15.0.0",
     "@rollup/plugin-node-resolve": "^9.0.0",
     "@rollup/plugin-replace": "^2.3.3",
