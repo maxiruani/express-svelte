@@ -41,7 +41,15 @@ module.exports = {
 
         nodeResolve({
             browser: true,
-            dedupe: ['svelte']
+            dedupe: [
+                'svelte',
+                'svelte/animate',
+                'svelte/easing',
+                'svelte/internal',
+                'svelte/motion',
+                'svelte/store',
+                'svelte/transition'
+            ]
         }),
 
         commonjs(),
