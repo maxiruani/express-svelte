@@ -10,9 +10,12 @@ app.set('json spaces', 2);
 app.use(expressSvelte({
     viewsDirname: __dirname + '/views',
     bundlesDirname: __dirname + '/public/dist',
+    bundlesHost: '/public/dist',
     bundlesPattern: '[name][extname]',
     env: 'development'
 }));
+
+app.use('/public', express.static(__dirname + '/public'));
 
 app.get('/', function (req, res, next) {
 
