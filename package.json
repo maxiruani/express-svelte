@@ -2,7 +2,7 @@
   "name": "express-svelte",
   "version": "1.0.0",
   "description": "A Svelte view engine for Express.",
-  "main": "index.js",
+  "main": "lib/express-svelte.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build:example": "NODE_ENV=development rollup -c example/rollup.config.js"
