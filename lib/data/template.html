@@ -1,0 +1,16 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <%= head %>
+    <% if (style) {       %><style type="text/css"><%= style %></style><% } %>
+    <% if (script) {      %><script defer type="text/javascript" src="<%= script %>"></script><% } %>
+    <% if (globalProps) { %><script type="text/javascript">window._GLOBAL_PROPS_ = <%= devalue(globalProps) %>;</script><% } %>
+    <% if (globalStore) { %><script type="text/javascript">window._GLOBAL_STORE_ = <%= devalue(globalStore) %>;</script><% } %>
+    <% if (props) {       %><script type="text/javascript">window._PROPS_ = <%= devalue(props) %>;</script><% } %>
+</head>
+<body>
+<%= html %>
+</body>
+</html>
