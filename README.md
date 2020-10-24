@@ -15,16 +15,19 @@ yarn add express-svelte
 
 ## Goals & Design
 
-I created this project because of the lack of a simple way to create, compile, render and hydrate views for simple non-SPA web apps.
+I created this project because of the lack of a simple way to create, compile, render and hydrate partially or complete views for simple non-SPA web apps.
 
 It a view engine rather than an app framework (like [Sapper](https://github.com/sveltejs/sapper) or [Next.js](https://github.com/vercel/next.js)).
 
 It [bypasses the express built-in view engine](https://strongloop.com/strongblog/bypassing-express-view-rendering-for-speed-and-modularity) and instead it sets a `res.svelte` function. The reason behind this is to avoid be tightly coupled with express (can be easily extended for use with [Polka](https://github.com/lukeed/polka)) and some limitations like the `app.locals` and `res.locals` merge logic. 
 
+It is inspired on this [Medium post](https://medium.com/@luke_schmuke/how-we-achieved-the-best-web-performance-with-partial-hydration-20fab9c808d5) that explains the goals behind partial hydration.
+
 ## Features
+- Static content without hydration.
+- **Partial** and **complete** hydration.
 - Compile views asynchronously (no need of `svelte/register`) with sane defaults and customizable configuration.
     * Support for preprocess plugins.
-    * Hydratable.
     * Replace values (like `process.env.NODE_ENV` and `process.browser`).
     * Dedupe dependencies.
     * Sourcemap support.
@@ -129,6 +132,8 @@ Default is `true`.
 
 Hydratable value to be used at [rollup-plugin-svelte](https://github.com/sveltejs/rollup-plugin-svelte) plugin.
 
+// TODO: EXPLAIN PARTIAL HYDRATION
+
 #### `replace`
 **Type:** `Object`.
 
@@ -182,6 +187,6 @@ The variables it receives are:
  - `html`: HTML code.
  
  Also [@nuxt/devalue](https://github.com/nuxt/devalue) function is provided to serialize props.
- This is made at template level to avoid serializing props if you desire to remove them from the template because you don't need to hydrate the view later.
+ This is made at template level to avoid serializing props that are not necessary according to hydration config.
  
  

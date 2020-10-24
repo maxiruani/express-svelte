@@ -7,9 +7,12 @@
     "express",
     "svelte",
     "ssr",
+    "ssr-support",
     "server-rendering",
     "engine",
-    "template"
+    "template",
+    "hydration",
+    "partial-hydration"
   ],
   "main": "lib/express-svelte.js",
   "scripts": {
@@ -21,7 +24,7 @@
     "url": "git+https://github.com/maxiruani/express-svelte.git"
   },
   "author": "Maximiliano Ruani",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/maxiruani/express-svelte/issues"
   },
