@@ -4,13 +4,45 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <%= head %>
-    <% if (style) {       %><style type="text/css"><%= style %></style><% } %>
-    <% if (script) {      %><script defer type="text/javascript" src="<%= script %>"></script><% } %>
+    <% if (style) { %><style type="text/css"><%= style %></style><% } %>
+    <% if (legacy === true) { %>
+    <script defer type="module" src="<%= scriptModern %>"></script>
+    <% } else { %>
+    <script defer type="text/javascript" src="<%= script %>"></script>
+    <% } %>
     <% if (globalProps) { %><script type="text/javascript">window._GLOBAL_PROPS_ = <%= devalue(globalProps) %>;</script><% } %>
     <% if (globalStore) { %><script type="text/javascript">window._GLOBAL_STORE_ = <%= devalue(globalStore) %>;</script><% } %>
     <% if (props) {       %><script type="text/javascript">window._PROPS_ = <%= devalue(props) %>;</script><% } %>
 </head>
 <body>
 <%= html %>
+
+<% if (legacy === true) { %>
+<% /* Fix for Safari 10.1 taken from https://gist.github.com/samthor/64b114e4a4f539915a95b91ffd340acc */ %>
+<script type="text/javascript">
+    (function() {
+        var d = document;
+        var c = d.createElement('script');
+        if (!('noModule' in c) && 'onbeforeload' in c) {
+            var s = false;
+            d.addEventListener('beforeload', function(e) {
+                if (e.target === c) {
+                    s = true;
+                }
+                else if (!e.target.hasAttribute('nomodule') || !s) {
+                    return;
+                }
+                e.preventDefault();
+            }, true);
+
+            c.type = 'module';
+            c.src = '.';
+            d.head.appendChild(c);
+            c.remove();
+        }
+    }());
+</script>
+<script defer nomodule src="<%= scriptLegacy %>"></script>
+<% } %>
 </body>
 </html>
