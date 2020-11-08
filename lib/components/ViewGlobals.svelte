@@ -3,7 +3,7 @@
     import { writable } from 'svelte/store';
 
     export let component;
-    export let componentProps = {};
+    export let props = {};
 
     export let globalAssets = {};
     export let globalProps = {};
@@ -18,4 +18,4 @@
     setContext('global.store', writable(globalStore));
 </script>
 
-<svelte:component this={component} {...componentProps} />
+<svelte:component this={component} {...props} />

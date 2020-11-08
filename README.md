@@ -193,16 +193,16 @@ Every dependency you add will extend the following dedupe array:
 If you need to make data available globally to all components in the view you can set your values at:
 
 For `globalProps` accessed via `getContext('global.props')`:
-- `app.locals` (Lowest priority)
+- `app.locals` (Lowest priority at merge)
 - `req.locals`
 - `res.locals`
-- `renderOpts.globalProps` (Highest priority)
+- `renderOpts.globalProps` (Highest priority at merge)
 
 For `globalStore` accessed via `getContext('global.store')`:
-- `app.locals` (Lowest priority)
+- `app.locals` (Lowest priority at merge)
 - `req.locals`
 - `res.locals`
-- `renderOpts.globalProps` (Highest priority)
+- `renderOpts.globalProps` (Highest priority at merge)
 
 To prevent sensitive data to be accidentally shipped to the browser, by default none of the keys in `app.locals`, `req.locals` or `res.locals` are serialized. If you want the data to be serialized and ship to the frontend you need to specify it in `$globalProps` or `$globalStore` inside of one the `locals` object.
 
@@ -210,7 +210,7 @@ Example:
 ```javascript
 res.locals.device = 'mobile';
 res.locals.username = '@user';
-res.locals.email = 'example@example.com'; // Non exposed
+res.locals.email = 'example@example.com'; // Not exposed
 
 res.locals.$globalProps = { device: true }; 
 res.locals.$globalStore = { username: true };
@@ -225,7 +225,7 @@ res.render('View', {
 });
 ```
 
-Output:
+Merge output:
 - `globalProps` -> `{ device: 'mobile', title: 'View title!' }`
 - `globalStore` -> `{ username: '@user', posts: [] }`
 
