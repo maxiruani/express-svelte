@@ -1,5 +1,6 @@
 <script>
     import { getContext, setContext } from 'svelte';
+    import devalue from '@nuxt/devalue';
 
     const isParentHydrated = getContext('_HYDRATION_ENABLED_') || false;
 
@@ -16,11 +17,11 @@
 </script>
 
 {#if isParentHydrated === false}
-    {@html `<script type="application/hydrate-start" data-props="${JSON.stringify(props)}"></script>`}
+    {@html `<script type="application/javascript" data-type="hydrate-start">window._PROPS_ = window._PROPS_ || []; window._PROPS_.push(${devalue(props)});</script>`}
 {/if}
 
 <svelte:component this={component} {...props} />
 
 {#if isParentHydrated === false}
-    {@html `<script type="application/hydrate-end"></script>`}
+    {@html `<script type="application/javascript" data-type="hydrate-end"></script>`}
 {/if}
