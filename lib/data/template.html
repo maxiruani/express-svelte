@@ -5,9 +5,9 @@
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <%= head %>
     <% if (style) { %><style type="text/css"><%= style %></style><% } %>
-    <% if (legacy === true) { %>
+    <% if (hydratable === true && legacy === true) { %>
     <script defer type="module" src="<%= scriptModern %>"></script>
-    <% } else { %>
+    <% } else if (hydratable === true) { %>
     <script defer type="text/javascript" src="<%= script %>"></script>
     <% } %>
     <% if (globalProps) { %><script type="text/javascript">window._GLOBAL_PROPS_ = <%= devalue(globalProps) %>;</script><% } %>
@@ -17,7 +17,7 @@
 <body>
 <%= html %>
 
-<% if (legacy === true) { %>
+<% if (hydratable === true && legacy === true) { %>
 <% /* Fix for Safari 10.1 taken from https://gist.github.com/samthor/64b114e4a4f539915a95b91ffd340acc */ %>
 <script type="text/javascript">
     (function() {

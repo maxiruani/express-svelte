@@ -188,6 +188,36 @@ Every dependency you add will extend the following dedupe array:
 
 ## Render options
 
+#### `cache`
+**Type:** `Boolean`.
+
+Overrides option set at the main config.
+
+#### `hydratable`
+**Type:** `Boolean`.
+
+Overrides option set at the main config.
+
+#### `templateFilename`
+**Type:** `String`.
+
+Overrides option set at the main config or package's default.
+
+#### `props`
+**Type:** `Object`.
+
+Props passed to View svelte component.
+
+#### `globalProps`
+**Type:** `Object`.
+
+Props passed global context accessible via `getContext('global.props')`.
+
+#### `globalStore`
+**Type:** `Object`.
+
+Props passed global store accessible via `getContext('global.store')`.
+
 ## Global props and store logic and behavior
 
 If you need to make data available globally to all components in the view you can set your values at:
@@ -202,7 +232,7 @@ For `globalStore` accessed via `getContext('global.store')`:
 - `app.locals` (Lowest priority at merge)
 - `req.locals`
 - `res.locals`
-- `renderOpts.globalProps` (Highest priority at merge)
+- `renderOpts.globalStore` (Highest priority at merge)
 
 To prevent sensitive data to be accidentally shipped to the browser, by default none of the keys in `app.locals`, `req.locals` or `res.locals` are serialized. If you want the data to be serialized and ship to the frontend you need to specify it in `$globalProps` or `$globalStore` inside of one the `locals` object.
 
@@ -240,6 +270,7 @@ The variables it receives are:
  - `script`: Script url.
  - `scriptLegacy`: Script url of legacy build.
  - `scriptModern`: Script url of modern build.
+ - `hydratable`: Boolean indicating if the view is hydratable.
  - `legacy`: Boolean indicating if legacy support is enabled.
  - `html`: HTML code.
  
