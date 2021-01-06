@@ -135,7 +135,7 @@ Hydratable value to be used at [rollup-plugin-svelte](https://github.com/sveltej
 
 If you are going to make `"complete"` or `"partial"` hydration from [rollup-plugin-express-svelte](https://github.com/maxiruani/rollup-plugin-express-svelte) it needs to be configured to build both bundles. You can check out the [express-svelte-example](https://github.com/maxiruani/express-svelte-example) this must be enabled.
 
-If disabled props, globals and scripts won't be exposed in the HTML.
+If disabled, props, globals and scripts won't be exposed in the HTML.
 
 #### `legacy`
 **Type:** `Boolean`.
