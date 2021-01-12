@@ -15,7 +15,7 @@
 
     setContext('global.assets', globalAssets);
     setContext('global.props', globalProps);
-    setContext('global.store', writable(globalStore));
+    setContext('global.store', process.browser === false ? writable(globalStore) : globalStore);
 </script>
 
 <svelte:component this={component} {...props} />
