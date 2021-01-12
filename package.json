@@ -40,7 +40,8 @@
     "lodash": "^4.17.20",
     "rollup": "^2.26.10",
     "rollup-plugin-svelte": "^6.0.0",
-    "source-map-support": "^0.5.19"
+    "source-map-support": "^0.5.19",
+
   },
   "peerDependencies": {
     "svelte": "^3.24.1"
