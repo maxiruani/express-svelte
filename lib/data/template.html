@@ -7,8 +7,8 @@
     <% if (style) { %><style type="text/css"><%= style %></style><% } %>
     <% if (hydratable === true && legacy === true && scriptModern != null) { %>
     <script defer type="module" src="<%= scriptModern %>"></script>
-    <% } else if (hydratable === true && script != null) { %>
-    <script defer type="text/javascript" src="<%= script %>"></script>
+    <% } else if (hydratable === true && legacy === false && scriptModern != null) { %>
+    <script defer type="text/javascript" src="<%= scriptModern %>"></script>
     <% } %>
     <% if (globalProps) { %><script type="text/javascript">window._GLOBAL_PROPS_ = <%= devalue(globalProps) %>;</script><% } %>
     <% if (globalStore) { %><script type="text/javascript">window._GLOBAL_STORE_ = <%= devalue(globalStore) %>;</script><% } %>
