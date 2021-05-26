@@ -5,13 +5,9 @@
     export let component;
     export let props = {};
 
-    export let globalAssets = {};
     export let globalProps = {};
     export let globalStores = {};
-
-    globalAssets.host = globalAssets.host || '';
-    globalAssets.scripts = globalAssets.scripts || new Map();
-    globalAssets.styles = globalAssets.styles || new Map();
+    export let globalContext = {};
 
     function _createStores(props) {
         const entries = Object.entries(props);
@@ -23,9 +19,9 @@
         return output;
     }
 
-    setContext('global.assets', globalAssets);
     setContext('global.props', globalProps);
     setContext('global.stores', process.browser === false ? _createStores(globalStores) : globalStores);
+    setContext('global.context', globalContext);
 </script>
 
 <svelte:component this={component} {...props} />
