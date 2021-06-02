@@ -7,7 +7,6 @@
 
     export let globalProps = {};
     export let globalStores = {};
-    export let globalContext = {};
 
     function _createStores(props) {
         const entries = Object.entries(props);
@@ -21,7 +20,6 @@
 
     setContext('global.props', globalProps);
     setContext('global.stores', process.browser === false ? _createStores(globalStores) : globalStores);
-    setContext('global.context', globalContext);
 </script>
 
 <svelte:component this={component} {...props} />
