@@ -54,10 +54,10 @@
   },
   "peerDependencies": {
     "express": "^4.17.1",
-    "svelte": "^3.24.1"
+    "svelte": "^3.38.2"
   },
   "devDependencies": {
     "express": "^4.17.1",
-    "svelte": "^3.24.1"
+    "svelte": "^3.38.2"
   }
 }
