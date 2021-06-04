@@ -14,7 +14,6 @@
     "hydration"
   ],
   "main": "lib/express-svelte.js",
-  "browser": "lib/components/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
