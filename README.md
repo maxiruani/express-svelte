@@ -237,7 +237,7 @@ res.render('View', {
 ```
 
 Svelte example: `View.svelte`
-```sveltehtml
+```svelte
 <script>
     import { getContext } from 'svelte';
     const { title } = getContext('global.props');  
