@@ -3,9 +3,6 @@ Express Svelte
 
 A straightforward [Svelte](https://github.com/sveltejs/svelte) view engine for [Express](https://github.com/expressjs/express).
 
-[![npm version][npm-badge]][npm]
-[![dependency status][dep-badge]][dep-status]
-
 ## Install
 Install via npm.
 ```bash
@@ -14,19 +11,15 @@ npm install express-svelte --save
 
 ## Goals & Design
 
-I created this project because of the lack of a simple way to create, compile, render and hydrate partially or complete views for simple non-SPA web apps.
+I created this project because of the lack of a simple way to create, compile, render and hydrate views for simple non-SPA web apps.
 
-It is a view engine rather than an app framework (like [Sapper](https://github.com/sveltejs/sapper) or [Next.js](https://github.com/vercel/next.js)).
+It is a view engine rather than an app framework (like [svelte-kit](https://kit.svelte.dev/), [Sapper](https://github.com/sveltejs/sapper) or [Next.js](https://github.com/vercel/next.js)).
 
 It [bypasses the express built-in view engine](https://strongloop.com/strongblog/bypassing-express-view-rendering-for-speed-and-modularity) and instead it sets a `res.svelte` function. The reason behind this is to avoid be tightly coupled with express (can be easily extended for use with [Polka](https://github.com/lukeed/polka)) and some limitations like the `app.locals` and `res.locals` merge logic. 
 
-Inspired on this [Medium post](https://medium.com/@luke_schmuke/how-we-achieved-the-best-web-performance-with-partial-hydration-20fab9c808d5) that explains the reasons and goals behind partial hydration.
-
-If hydration (partial or complete) is desired, the simple [rollup-plugin-express-svelte](https://github.com/maxiruani/rollup-plugin-express-svelte) plugin will take care of bundling the views. Full example of working app at [express-svelte-example](https://github.com/maxiruani/express-svelte-example).
-
 ## Features
 - Static content without hydration.
-- **Partial** and **complete** hydration.
+- Hydration.
 - Compile views asynchronously (no need of `svelte/register`) with sane defaults and customizable configuration.
     * Support for preprocess plugins.
     * Replace values (like `process.env.NODE_ENV` and `process.browser`).
@@ -34,9 +27,8 @@ If hydration (partial or complete) is desired, the simple [rollup-plugin-express
     * Sourcemap support.
     * Cache.
 - Global values set at top-level component via [Svelte Context API](https://svelte.dev/docs#getContext):
-    * Global **props** based on `app.locals`, `res.locals`, `req.locals` and `opts.globalProps`.
-    * Global **store** based on `app.locals`, `res.locals`, `req.locals` and `opts.globalStore`.
-    * Global **assets** (server side only). You can access the compiled script or style urls from the views directory.
+    * Global **props** based on `opts.globalProps`.
+    * Global **stores** based on `opts.globalStores`.
 - Customizable root [lodash template](https://lodash.com/docs/4.17.15#template) ([very fast](https://ghcdn.rawgit.org/eta-dev/eta/master/browser-tests/benchmark.html) and similar to EJS syntax). 
 
 ## Basic setup and usage
@@ -55,7 +47,7 @@ app.get((req, res, next) => {
     res.svelte('View', {
         props: { /* ... */ },
         globalProps: { /* ... */ },
-        globalStore: { /* ... */ }
+        globalStores: { /* ... */ }
     });
 });
 ```
@@ -133,9 +125,7 @@ Default is `false`.
 
 Hydratable value to be used at [rollup-plugin-svelte](https://github.com/sveltejs/rollup-plugin-svelte) plugin.
 
-If you are going to make `"complete"` or `"partial"` hydration from [rollup-plugin-express-svelte](https://github.com/maxiruani/rollup-plugin-express-svelte) it needs to be configured to build both bundles. You can check out the [express-svelte-example](https://github.com/maxiruani/express-svelte-example) this must be enabled.
-
-If disabled, props, globals and scripts won't be exposed in the HTML.
+If disabled, props and globals won't be exposed in the HTML.
 
 #### `legacy`
 **Type:** `Boolean`.
@@ -206,58 +196,64 @@ Overrides option set at the main config or package's default.
 #### `props`
 **Type:** `Object`.
 
-Props passed to View svelte component.
+Props passed to View svelte component. You will receive these props exporting each property in the view.
 
 #### `globalProps`
 **Type:** `Object`.
 
 Props passed global context accessible via `getContext('global.props')`.
 
-#### `globalStore`
+#### `globalStores`
 **Type:** `Object`.
 
-Props passed global store accessible via `getContext('global.store')`.
+Props passed global store accessible via `getContext('global.stores')`.
 
-## Global props and store logic and behavior
+## Props, global props and global stores logic and behavior
+
+For `props`, each property can be accessed via `export let propertyName`. You can use defaults too.
 
 If you need to make data available globally to all components in the view you can set your values at:
 
 For `globalProps` accessed via `getContext('global.props')`:
-- `app.locals` (Lowest priority at merge)
-- `req.locals`
-- `res.locals`
-- `renderOpts.globalProps` (Highest priority at merge)
 
-For `globalStore` accessed via `getContext('global.store')`:
-- `app.locals` (Lowest priority at merge)
-- `req.locals`
-- `res.locals`
-- `renderOpts.globalStore` (Highest priority at merge)
+For `globalStores` accessed via `getContext('global.stores')`:
+- The engine will create a svelte store for every first level value of the `globalStores` provided object.
 
-To prevent sensitive data to be accidentally shipped to the browser, by default none of the keys in `app.locals`, `req.locals` or `res.locals` are serialized. If you want the data to be serialized and ship to the frontend you need to specify it in `$globalProps` or `$globalStore` inside of one the `locals` object.
-
-Example:
+Express example:
 ```javascript
-res.locals.device = 'mobile';
-res.locals.username = '@user';
-res.locals.email = 'example@example.com'; // Not exposed
-
-res.locals.$globalProps = { device: true }; 
-res.locals.$globalStore = { username: true };
 
 res.render('View', {
-    globalProps: {
-        title: 'View title!'
+    props: {
+        localValue: 1 
     },
-    globalStore: {
-        posts: []
+    globalProps: {
+        title: 'Some title!'
+    },
+    globalStores: {
+        user: { name: 'John' },
+        session: { sessionValue: 2 }
     }
 });
 ```
 
-Merge output:
-- `globalProps` -> `{ device: 'mobile', title: 'View title!' }`
-- `globalStore` -> `{ username: '@user', posts: [] }`
+Svelte example: `View.svelte`
+```svelte
+<script>
+    import { getContext } from 'svelte';
+    const { title } = getContext('global.props');  
+    const { user, session } = getContext('global.stores');
+  
+    export let localValue = null;
+</script>
+
+<svelte:head>
+  <title>{title}</title>
+</svelte:head>
+
+<span>{localValue}</span>
+<span>{$user.name}</span>
+<span>{$session.sessionValue}</span>
+````
 
 ## Template
 
