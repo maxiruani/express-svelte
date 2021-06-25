@@ -1,6 +1,6 @@
 {
   "name": "express-svelte",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "A straightforward Svelte view engine for Express.",
   "keywords": [
     "node",
