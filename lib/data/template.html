@@ -10,12 +10,15 @@
     <% } else if (hydratable === true && legacy === false && scriptModern != null) { %>
     <script defer type="text/javascript" src="<%= scriptModern %>"></script>
     <% } %>
-    <% if (globalProps) { %><script type="text/javascript">window._GLOBAL_PROPS_ = <%= devalue(globalProps) %>;</script><% } %>
-    <% if (globalStores) { %><script type="text/javascript">window._GLOBAL_STORES_ = <%= devalue(globalStores) %>;</script><% } %>
-    <% if (props) {       %><script type="text/javascript">window._PROPS_ = <%= devalue(props) %>;</script><% } %>
 </head>
 <body>
 <%= html %>
+
+<% /* We append these scripts at then end of the body to avoid blocking the rendering. */ %>
+<% /* It can be done here because the modern script is deferred and it will be executed just before the DOMContentLoaded event is triggered. */ %>
+<% if (globalProps) { %><script type="text/javascript">window._GLOBAL_PROPS_ = <%= devalue(globalProps) %>;</script><% } %>
+<% if (globalStores) { %><script type="text/javascript">window._GLOBAL_STORES_ = <%= devalue(globalStores) %>;</script><% } %>
+<% if (props) {       %><script type="text/javascript">window._PROPS_ = <%= devalue(props) %>;</script><% } %>
 
 <% if (hydratable === true && legacy === true && scriptLegacy != null) { %>
 <% /* Fix for Safari 10.1 taken from https://gist.github.com/samthor/64b114e4a4f539915a95b91ffd340acc */ %>
