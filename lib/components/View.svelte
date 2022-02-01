@@ -1,5 +1,5 @@
 <script context="module">
-    const Component = null;
+    const ComponentStatic = null;
 
     /**
      * @param {Object} params
@@ -9,8 +9,8 @@
      * @return {Promise<void>}
      */
     export async function load(params) {
-        if (Component != null && Component.load != null) {
-            await Component.load(params);
+        if (ComponentStatic != null && ComponentStatic.load != null) {
+            await ComponentStatic.load(params);
         }
     }
 </script>
